@@ -1,0 +1,17 @@
+# Java
+/target/
+*.log
+/logs/
+
+# Node
+/node_modules/
+/dist/
+
+# IDE
+/.idea/
+*.iml
+
+# Env
+.env
+.local
+application-*.local.yml
