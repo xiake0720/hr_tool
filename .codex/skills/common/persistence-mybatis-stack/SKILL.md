@@ -1,16 +1,16 @@
 ---
 name: common-persistence-mybatis-stack
-description: "MyBatis persistence stack for Boot 4: recommend MyBatis-Plus spring-boot4-starter, pagination, optimistic lock, logical delete, code generator, and mapper conventions."
+description: "MyBatis persistence stack for Boot 3.5.x: recommend MyBatis-Plus spring-boot3-starter, pagination, optimistic lock, logical delete, code generator, and mapper conventions."
 metadata:
   short-description: "MyBatis ecosystem choices for 2026"
   tags: [common, mybatis, mybatis-plus, persistence, mysql]
 ---
 
 # Purpose
-Standardize persistence layer using MyBatis for MySQL 9.5, aligned with Boot 4.
+Standardize persistence layer using MyBatis for MySQL 9.5, aligned with Boot 3.5.x.
 
 # Recommended Components (2026-friendly)
-- Primary: MyBatis-Plus `mybatis-plus-spring-boot4-starter` (Boot 4 aligned).
+- Primary: MyBatis-Plus `mybatis-plus-spring-boot3-starter` (Boot 3.5.x aligned).
 - Optional add-ons:
     - MyBatis-Plus Generator (code generation)
     - Optimistic Locker plugin

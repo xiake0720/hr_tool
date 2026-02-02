@@ -15,6 +15,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.ht.tools</groupId>
+      <artifactId>ht-tools-common-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ht.tools</groupId>
+      <artifactId>ht-tools-common-web</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
@@ -40,7 +50,7 @@
     </dependency>
     <dependency>
       <groupId>com.baomidou</groupId>
-      <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+      <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>

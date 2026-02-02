@@ -1,9 +1,9 @@
 ---
-name: gen-springboot4-cloud-mysql-mybatis-skeleton
-description: "Generate Boot 4 microservices skeleton under services/: gateway-service + iam-service, aligned Spring Cloud (Boot4 compatible, prefer 2025.1.x), MySQL 9.5 + Flyway, MyBatis-Plus boot4 starter, Kafka/Redis starters, and OAuth2 Resource Server JWT."
+name: gen-springBoot3.5-cloud-mysql-mybatis-skeleton
+description: "Generate Boot 3.5.x microservices skeleton under services/: gateway-service + iam-service, aligned Spring Cloud (Boot3.5 compatible, prefer 2025.0.x), MySQL 9.5 + Flyway, MyBatis-Plus Boot3.5 starter, Kafka/Redis starters, and OAuth2 Resource Server JWT."
 metadata:
-  short-description: "Microservices skeleton (Boot4 + Cloud + MySQL + MyBatis + Kafka + Redis)"
-  tags: [generator, springboot4, spring-cloud, mysql, mybatis-plus, kafka, redis, oauth2]
+  short-description: "Microservices skeleton (Boot3.5 + Cloud + MySQL + MyBatis + Kafka + Redis)"
+  tags: [generator, springBoot3.5, spring-cloud, mysql, mybatis-plus, kafka, redis, oauth2]
 ---
 
 # Purpose
@@ -11,9 +11,9 @@ Bootstrap the minimal runnable microservice foundation for Phase 1.
 
 # Rules
 - Create `services/gateway-service` and `services/iam-service`.
-- Use Spring Boot 4 + Spring Cloud release train compatible with Boot 4 (prefer 2025.1.x if Boot 4.0.1+).
+- Use Spring Boot 3.5.x + Spring Cloud release train compatible with Boot 3.5.x (prefer 2025.0.x if Boot 3.5.x.0.1+).
 - Security: OAuth2 Resource Server JWT in services exposing APIs.
-- Persistence in iam-service: MySQL + Flyway + MyBatis-Plus boot4 starter.
+- Persistence in iam-service: MySQL + Flyway + MyBatis-Plus Boot3.5 starter.
 - Infra clients:
     - Kafka client dependencies
     - Redis client dependencies

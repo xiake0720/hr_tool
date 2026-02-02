@@ -1,16 +1,16 @@
 ---
 name: common-spring-cloud-microservices
-description: "Spring Cloud baseline for Boot 4 microservices: use Boot4-compatible Spring Cloud release train (prefer 2025.1.x), Gateway, OpenFeign+LoadBalancer, Resilience4j circuit breaker, config baseline, and tracing via Micrometer."
+description: "Spring Cloud baseline for Boot 3.5.x microservices: use Boot 3.5.x-compatible Spring Cloud release train (prefer 2025.0.x), Gateway, OpenFeign+LoadBalancer, Resilience4j circuit breaker, config baseline, and tracing via Micrometer."
 metadata:
   short-description: "Spring Cloud component set for 2026"
   tags: [common, spring-cloud, gateway, feign, resilience4j, tracing]
 ---
 
 # Purpose
-Define the minimal, modern Spring Cloud stack that matches Spring Boot 4.
+Define the minimal, modern Spring Cloud stack that matches Spring Boot 3.5.x.
 
 # Rules
-- Use Spring Cloud release train compatible with Spring Boot 4 (prefer 2025.1.x for Boot 4.0.1+).
+- Use Spring Cloud release train compatible with Spring Boot 3.5.x (prefer 2025.0.x for Boot 3.5.x).
 - Use components:
     - Spring Cloud Gateway (edge)
     - OpenFeign + Spring Cloud LoadBalancer (service-to-service)
@@ -23,7 +23,7 @@ Define the minimal, modern Spring Cloud stack that matches Spring Boot 4.
 - Avoid over-splitting; prefer modular design inside iam-service.
 
 # Deliverables
-- Dependency management via Spring Cloud BOM aligned to Boot 4
+- Dependency management via Spring Cloud BOM aligned to Boot 3.5.x
 - Gateway routing to iam-service
 - Feign client sample between services (if needed)
 - Standard resilience configuration template
@@ -34,5 +34,5 @@ Define the minimal, modern Spring Cloud stack that matches Spring Boot 4.
 - Circuit breaker config is present and validated by unit test or smoke test
 
 # Anti-Patterns
-- Mixing incompatible Spring Cloud train with Boot 4
+- Mixing incompatible Spring Cloud train with Boot 3.5.x
 - Introducing service discovery complexity before it is needed

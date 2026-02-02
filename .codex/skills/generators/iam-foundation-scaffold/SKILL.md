@@ -12,7 +12,7 @@ Create a minimal closed-loop IAM foundation in iam-service.
 # Rules
 - Must conform to AGENTS.md (Phase 1 scope only).
 - Must use MySQL + Flyway V1__init.sql for schema.
-- Must use MyBatis (prefer MyBatis-Plus boot4 starter).
+- Must use MyBatis (prefer MyBatis-Plus boot3 starter).
 - Must implement:
     - JWT -> business user mapping (external_sub)
     - `/api/me`

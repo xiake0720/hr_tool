@@ -1,6 +1,6 @@
 ---
 name: common-auth-oauth2-resource-server
-description: "Configure Spring Security OAuth2 Resource Server (JWT) for Boot 4: issuer/jwk validation, 401/403 handling, and building CurrentUserContext from JWT claims + DB mapping."
+description: "Configure Spring Security OAuth2 Resource Server (JWT) for Boot 3.5.x: issuer/jwk validation, 401/403 handling, and building CurrentUserContext from JWT claims + DB mapping."
 metadata:
   short-description: "OAuth2 JWT resource server baseline"
   tags: [common, security, oauth2, jwt, spring-security]
