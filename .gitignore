@@ -15,3 +15,5 @@
 .env
 .local
 application-*.local.yml
+/services/gateway-service/target/
+/services/iam-service/target/

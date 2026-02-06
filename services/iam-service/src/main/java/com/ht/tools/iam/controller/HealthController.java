@@ -5,12 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 鐢ㄩ€旓細鎻愪緵 IAM 鏈嶅姟鐨勫熀纭€鍋ュ悍妫€鏌ョ鐐广€? * 杈圭晫锛氫粎鐢ㄤ簬鍙敤鎬ф帰娴嬶紝涓嶆壙杞戒笟鍔℃暟鎹€? * 绾跨▼妯″瀷锛氭棤鐘舵€?Controller锛岀嚎绋嬪畨鍏ㄣ€? * 璋冪敤鏃舵満锛氳繍缁存垨缃戝叧鎺㈡祴鏃惰皟鐢ㄣ€? * 娓呯悊璐ｄ换锛氭棤銆? * 璇敤椋庨櫓锛氫笉瑕佸湪姝ゆ帴鍙ｈ繑鍥炴晱鎰熶俊鎭€? * 涓庡叾瀹冪粍浠跺叧绯伙細鍝嶅簲浣撲娇鐢?{@link ApiResponse} 鍖呰銆? */
+ * 健康检查控制器。
+ * 用于提供服务存活/就绪探针的轻量接口，仅返回固定响应，不包含业务逻辑。
+ * 主要供网关、监控与容器探针调用，线程安全（无共享可变状态）。
+ * 关联统一返回 {@link ApiResponse}；避免在此接口做鉴权或访问数据库，确保探针稳定。
+ */
 @RestController
 public class HealthController {
 
     /**
-     * 鍏ュ弬锛氭棤銆?     * 杩斿洖锛氱粺涓€鎴愬姛鍝嶅簲锛坉ata 涓?"OK"锛夈€?     * 鍓綔鐢細浼氬湪鍝嶅簲涓惡甯?requestId銆?     * 鏄惁鍙┖锛氳繑鍥炲€间笉涓虹┖銆?     * 寮傚父锛氭棤銆?     * 绾跨▼瀹夊叏锛氱嚎绋嬪畨鍏紙鏃犲叡浜姸鎬侊級銆?     * 浣跨敤寤鸿锛氫粎鐢ㄤ簬鍋ュ悍鎺㈡祴锛岄伩鍏嶄綔涓轰笟鍔℃帴鍙ｄ緷璧栥€?     *
+     * 健康检查接口：GET /api/health。
+     * 返回 {@code "OK"}，响应体由 {@link ApiResponse} 包装，含 requestId（由请求上下文生成）。
+     * 无参数、无副作用，线程安全。
+     *
      * @return ApiResponse<String>
      */
     @GetMapping("/api/health")

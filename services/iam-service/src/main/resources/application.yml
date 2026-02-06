@@ -1,5 +1,11 @@
 server:
-  port: 8081
+  port: 8881
+
+app:
+  redis:
+    enabled: false
+  kafka:
+    enabled: false
 
 spring:
   application:
@@ -9,9 +15,9 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
   datasource:
-    url: jdbc:mysql://localhost:3306/hr_iam_dev?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://8.148.69.222:3306/hr_tool?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:}
+    password: ${MYSQL_PASSWORD:Lc123.321}
   data:
     redis:
       host: ${REDIS_HOST:localhost}
