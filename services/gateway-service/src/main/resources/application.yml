@@ -2,8 +2,6 @@ server:
   port: 8880
 
 app:
-  redis:
-    enabled: false
   kafka:
     enabled: false
 

@@ -16,8 +16,8 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
 
 /**
- * 通过配置项控制 Redis/Kafka 的启停。
- * 用于本地开发关闭 Redis/Kafka 自动配置与健康检查，避免启动时连接外部依赖。
+ * 通过配置项控制 Kafka 的启停。
+ * 用于本地开发时关闭 Kafka 自动配置与健康检查，避免启动时连接外部依赖。
  *
  * 注意：
  * 1) 仅写入 Spring Boot 确认存在的 AutoConfiguration 类名，避免“排除无效”导致仍然装配。
@@ -27,33 +27,18 @@ public class IntegrationToggleEnvironmentPostProcessor implements EnvironmentPos
 
     private static final Logger log = LoggerFactory.getLogger(IntegrationToggleEnvironmentPostProcessor.class);
 
-    private static final String REDIS_ENABLED_KEY = "app.redis.enabled";
     private static final String KAFKA_ENABLED_KEY = "app.kafka.enabled";
     private static final String AUTOCONFIGURE_EXCLUDE_KEY = "spring.autoconfigure.exclude";
 
-    private static final String REDIS_AUTOCONFIG =
-            "org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration";
-    private static final String REDIS_REPOS_AUTOCONFIG =
-            "org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration";
-    private static final String REDIS_REACTIVE_AUTOCONFIG =
-            "org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration";
     private static final String KAFKA_AUTOCONFIG =
             "org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration";
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        boolean redisEnabled = environment.getProperty(REDIS_ENABLED_KEY, Boolean.class, false);
         boolean kafkaEnabled = environment.getProperty(KAFKA_ENABLED_KEY, Boolean.class, false);
 
         Map<String, Object> overrides = new HashMap<>();
         List<String> excludes = new ArrayList<>();
-
-        if (!redisEnabled) {
-            excludes.add(REDIS_AUTOCONFIG);
-            excludes.add(REDIS_REPOS_AUTOCONFIG);
-            excludes.add(REDIS_REACTIVE_AUTOCONFIG);
-            overrides.put("management.health.redis.enabled", "false");
-        }
 
         if (!kafkaEnabled) {
             excludes.add(KAFKA_AUTOCONFIG);
