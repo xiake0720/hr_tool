@@ -7,7 +7,10 @@ metadata:
 ---
 
 # Purpose
-Ensure consistent, high-quality UI output aligned with ui-ux-pro-max-skill.
+Ensure consistent, high-quality UI output aligned with ui-ux-pro-max.
+
+# Relationship
+- For full UI/UX guidance and search workflows, use the `ui-ux-pro-max` skill.
 
 # Style Rules (High-level)
 - Clean enterprise admin aesthetic: restrained colors, strong hierarchy, minimal decoration.
