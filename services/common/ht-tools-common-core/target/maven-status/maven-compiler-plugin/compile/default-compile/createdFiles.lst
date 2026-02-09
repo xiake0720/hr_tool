@@ -1,5 +1,0 @@
-com\ht\tools\common\core\api\ApiResponse.class
-com\ht\tools\common\core\error\ErrorCode.class
-com\ht\tools\common\core\request\RequestIdHolder.class
-com\ht\tools\common\core\error\BizException.class
-com\ht\tools\common\core\api\PageResponse.class
