@@ -1,6 +1,9 @@
 package com.ht.tools.iam.security;
 
 import com.ht.tools.common.web.RequestIdContext;
+import com.ht.tools.iam.infrastructure.entity.UserEntity;
+import com.ht.tools.iam.service.UserPermissionService;
+import com.ht.tools.iam.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +29,16 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class CurrentUserContextFilter extends OncePerRequestFilter {
 
+    private static final Long FALLBACK_TENANT_ID = 1L;
+
+    private final UserService userService;
+    private final UserPermissionService userPermissionService;
+
+    public CurrentUserContextFilter(UserService userService, UserPermissionService userPermissionService) {
+        this.userService = userService;
+        this.userPermissionService = userPermissionService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -39,8 +52,22 @@ public class CurrentUserContextFilter extends OncePerRequestFilter {
             context.setExternalSub(jwt.getSubject());
             context.setUsername(getStringClaim(jwt, "preferred_username", "username"));
             context.setEmail(jwt.getClaimAsString("email"));
-            context.setRoles(getStringSetClaim(jwt, "roles"));
-            context.setPermissions(getStringSetClaim(jwt, "permissions"));
+            context.setTenantId(getLongClaim(jwt, "tenant_id"));
+
+            Long tenantId = context.getTenantId() != null ? context.getTenantId() : FALLBACK_TENANT_ID;
+            userService.findByExternalSubOrLoginOrEmail(
+                            context.getExternalSub(),
+                            context.getUsername(),
+                            context.getEmail(),
+                            tenantId)
+                    .ifPresent(user -> fillFromUser(context, tenantId, user));
+
+            if (context.getRoles() == null) {
+                context.setRoles(Collections.emptySet());
+            }
+            if (context.getPermissions() == null) {
+                context.setPermissions(Collections.emptySet());
+            }
         } else {
             context.setRoles(Collections.emptySet());
             context.setPermissions(Collections.emptySet());
@@ -54,11 +81,35 @@ public class CurrentUserContextFilter extends OncePerRequestFilter {
         }
     }
 
+    private void fillFromUser(CurrentUserContext context, Long tenantId, UserEntity user) {
+        context.setUserId(user.getId());
+        if (context.getTenantId() == null) {
+            context.setTenantId(tenantId);
+        }
+        context.setRoles(userPermissionService.loadRoles(tenantId, user.getId()));
+        context.setPermissions(userPermissionService.loadPermissions(tenantId, user.getId()));
+    }
+
     private String getStringClaim(Jwt jwt, String... keys) {
         for (String key : keys) {
             String value = jwt.getClaimAsString(key);
             if (value != null && !value.isBlank()) {
                 return value;
+            }
+        }
+        return null;
+    }
+
+    private Long getLongClaim(Jwt jwt, String key) {
+        Object value = jwt.getClaims().get(key);
+        if (value instanceof Number number) {
+            return number.longValue();
+        }
+        if (value instanceof String str && !str.isBlank()) {
+            try {
+                return Long.parseLong(str);
+            } catch (NumberFormatException ignored) {
+                return null;
             }
         }
         return null;

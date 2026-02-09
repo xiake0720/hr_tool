@@ -19,6 +19,36 @@ public final class CacheKeys {
      */
     public static final String CACHE_TEST_PING = PREFIX + ":cache-test:ping";
 
+    /**
+     * 用户权限缓存 key 前缀。
+     */
+    public static final String USER_PERMISSIONS_PREFIX = PREFIX + ":perm:user:";
+
+    /**
+     * 用户角色缓存 key 前缀。
+     */
+    public static final String USER_ROLES_PREFIX = PREFIX + ":role:user:";
+
+    /**
+     * 行为：生成用户权限缓存 key。
+     *
+     * @param userId 用户 ID
+     * @return 缓存 key
+     */
+    public static String userPermissionsKey(Long userId) {
+        return USER_PERMISSIONS_PREFIX + userId;
+    }
+
+    /**
+     * 行为：生成用户角色缓存 key。
+     *
+     * @param userId 用户 ID
+     * @return 缓存 key
+     */
+    public static String userRolesKey(Long userId) {
+        return USER_ROLES_PREFIX + userId;
+    }
+
     private CacheKeys() {
     }
 }

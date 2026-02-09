@@ -21,16 +21,12 @@ spring:
       server:
         webflux:
           routes:
-            - id: iam-service-prefix
+            - id: iam-service
               uri: lb://iam-service
               predicates:
                 - Path=/api/iam/**
               filters:
                 - StripPrefix=2
-            - id: iam-service
-              uri: lb://iam-service
-              predicates:
-                - Path=/api/me,/api/health,/api/cache/**,/api/infra/**
 management:
   endpoints:
     web:
