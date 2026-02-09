@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS infra_ping (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  msg VARCHAR(255) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO infra_ping (msg, created_at)
+VALUES ('pong', NOW());

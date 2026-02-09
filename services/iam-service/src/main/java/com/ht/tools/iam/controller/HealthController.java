@@ -5,18 +5,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 健康检查控制器。
- * 用于提供服务存活/就绪探针的轻量接口，仅返回固定响应，不包含业务逻辑。
- * 主要供网关、监控与容器探针调用，线程安全（无共享可变状态）。
- * 关联统一返回 {@link ApiResponse}；避免在此接口做鉴权或访问数据库，确保探针稳定。
+ * 用途：健康检查控制器，提供轻量探针接口。
+ * 职责/边界：仅返回固定响应，不包含业务逻辑与数据库访问。
+ * 调用时机：网关、监控或容器探针访问时调用。
+ * 线程模型：无状态 Controller，线程安全。
+ * 关系说明：统一使用 ApiResponse 输出并携带 requestId。
  */
 @RestController
 public class HealthController {
 
     /**
-     * 健康检查接口：GET /api/health。
-     * 返回 {@code "OK"}，响应体由 {@link ApiResponse} 包装，含 requestId（由请求上下文生成）。
-     * 无参数、无副作用，线程安全。
+     * 行为：返回服务健康状态。
+     * 入参：无。
+     * 出参：ApiResponse<String>，固定返回 "OK"。
+     * 异常：无。
      *
      * @return ApiResponse<String>
      */

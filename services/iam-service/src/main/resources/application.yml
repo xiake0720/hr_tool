@@ -34,6 +34,9 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${OAUTH2_ISSUER_URI:http://localhost:9000/realms/hr}
+          jwk-set-uri: ${OAUTH2_JWK_SET_URI:http://localhost:9000/realms/hr/protocol/openid-connect/certs}
+  profiles:
+    active: local
 management:
   endpoints:
     web:
