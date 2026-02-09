@@ -13,6 +13,8 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
         namespace: edf92667-4c88-4679-83d8-7307ca2a03e6
+        group: DEFAULT_GROUP
+        cluster-name: DEFAULT
     gateway:
       default-filters:
         - AddRequestHeader=X-Request-Id, #{T(java.util.UUID).randomUUID().toString()}
@@ -22,9 +24,22 @@ spring:
             - id: iam-service
               uri: lb://iam-service
               predicates:
-                - Path=/api/**
+                - Path=/api/iam/**
+              filters:
+                - StripPrefix=2
 management:
   endpoints:
     web:
       exposure:
         include: health
+
+# 全局日志级别（优先级最低）
+logging:
+  level:
+    root: debug  # 根日志级别，默认INFO
+    # 按包名指定日志级别（优先级更高）
+    com.example.demo: DEBUG  # 自定义业务包，设为DEBUG
+    org.springframework.web: WARN  # Spring Web相关日志，设为WARN
+    com.zaxxer.hikari: ERROR  # 数据库连接池日志，设为ERROR
+    # 按具体类指定日志级别（优先级最高）
+    com.example.demo.controller.UserController: TRACE

@@ -2,8 +2,11 @@ server:
   port: 8881
 
 app:
-  kafka:
-    enabled: false
+  integrations:
+    redis:
+      enabled: true
+    kafka:
+      enabled: true
 
 spring:
   application:
@@ -12,10 +15,18 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        namespace: edf92667-4c88-4679-83d8-7307ca2a03e6
+        group: DEFAULT_GROUP
+        cluster-name: DEFAULT
+  datasource:
+    url: jdbc:mysql://8.148.69.222:3306/hr_tool?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:Lc123.321}
   data:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
       port: ${REDIS_PORT:6379}
+
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
   security:
@@ -27,4 +38,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,info,env,configprops
+
+
+# 全局日志级别（优先级最低）
+logging:
+  level:
+    root: info  # 根日志级别，默认INFO
+    # 按包名指定日志级别（优先级更高）
+    com.example.demo: DEBUG  # 自定义业务包，设为DEBUG
+    org.springframework.web: WARN  # Spring Web相关日志，设为WARN
+    com.zaxxer.hikari: ERROR  # 数据库连接池日志，设为ERROR
+    # 按具体类指定日志级别（优先级最高）
+    com.example.demo.controller.UserController: TRACE
