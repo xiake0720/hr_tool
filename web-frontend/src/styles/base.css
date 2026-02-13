@@ -17,6 +17,7 @@ body {
   color: var(--text);
   background: var(--app-bg);
   min-height: 100vh;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -85,6 +86,33 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ui-control {
+  --ui-control-h: var(--control-h);
+  --ui-control-w: var(--control-w);
+  width: var(--ui-control-w);
+  flex: 0 0 var(--ui-control-w);
+  min-width: var(--ui-control-w);
+}
+
+.ui-control--sm {
+  --ui-control-w: var(--control-w-sm);
+}
+
+.ui-control--md {
+  --ui-control-w: var(--control-w);
+}
+
+.ui-control--lg {
+  --ui-control-w: var(--control-w-lg);
+}
+
+.ui-control--full {
+  --ui-control-w: 100%;
+  width: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
 }
 
 :focus-visible {

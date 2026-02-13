@@ -81,10 +81,12 @@
   --w-date-range: clamp(260px, 22vw, 360px);
   --control-h: 36px;
   --control-w: 240px;
-  --control-w-sm: 180px;
-  --control-w-lg: 320px;
+  --control-w-sm: 200px;
+  --control-w-lg: 280px;
+  --control-w-md: var(--control-w);
   --panel-max-w: 420px;
   --panel-max-h: 320px;
+  --panel-viewport-gap: 12px;
 
   --space-0: 0px;
   --space-1: 4px;

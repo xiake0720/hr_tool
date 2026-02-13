@@ -2,7 +2,7 @@
   <span
     ref="triggerRef"
     class="ui-popover__trigger"
-    :class="{ 'ui-popover__trigger--full': fullWidth }"
+    :class="{ 'ui-popover__trigger--full': props.fullWidth === true || props.matchTriggerWidth === true }"
     @click="toggle"
     @keydown="onKeydown"
     tabindex="0"
@@ -35,6 +35,7 @@ interface Props {
   offset?: number;
   align?: "left" | "right";
   fullWidth?: boolean;
+  matchTriggerWidth?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -44,7 +45,8 @@ const props = withDefaults(defineProps<Props>(), {
   maxHeight: 320,
   offset: 8,
   align: "left",
-  fullWidth: false
+  fullWidth: false,
+  matchTriggerWidth: false
 });
 
 const emit = defineEmits<{ (event: "update:open", value: boolean): void }>();
@@ -59,17 +61,54 @@ const isOpen = computed({
 
 function updatePosition(): void {
   const trigger = triggerRef.value;
-  if (!trigger) return;
+  const panel = panelRef.value;
+  if (!trigger || !panel) return;
+
+  const rawViewportGap = Number.parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue("--panel-viewport-gap")
+  );
+  const viewportGap = Number.isFinite(rawViewportGap) ? rawViewportGap : 12;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
   const rect = trigger.getBoundingClientRect();
-  const top = rect.bottom + props.offset;
-  const minWidth = props.minWidth || rect.width;
-  const width = Math.min(Math.max(rect.width, minWidth), props.maxWidth);
-  const left = props.align === "right" ? rect.right - width : rect.left;
+  const triggerWidth = Math.max(0, rect.width);
+  const computedMaxWidth = Math.max(160, Math.min(props.maxWidth, viewportWidth - viewportGap * 2));
+  const computedMaxHeight = Math.max(160, Math.min(props.maxHeight, viewportHeight - viewportGap * 2));
+  const minByTrigger = props.matchTriggerWidth ? triggerWidth : 0;
+  const computedMinWidth = Math.min(computedMaxWidth, Math.max(props.minWidth, minByTrigger));
+
   panelStyle.value = {
-    top: `${top}px`,
-    left: `${left}px`,
-    width: `${width}px`,
-    maxHeight: `${props.maxHeight}px`
+    top: `${Math.max(viewportGap, rect.bottom + props.offset)}px`,
+    left: `${Math.max(viewportGap, props.align === "right" ? rect.right - computedMinWidth : rect.left)}px`,
+    minWidth: `${computedMinWidth}px`,
+    maxWidth: `${computedMaxWidth}px`,
+    maxHeight: `${computedMaxHeight}px`,
+    "--popover-trigger-w": `${triggerWidth}px`,
+    "--popover-panel-min-w": `${computedMinWidth}px`
+  };
+
+  const panelRect = panel.getBoundingClientRect();
+  const panelWidth = Math.min(panelRect.width, computedMaxWidth);
+  const panelHeight = Math.min(panelRect.height, computedMaxHeight);
+  const desiredLeft = props.align === "right" ? rect.right - panelWidth : rect.left;
+  const desiredTop = rect.bottom + props.offset;
+  const clampedLeft = Math.min(
+    Math.max(viewportGap, desiredLeft),
+    Math.max(viewportGap, viewportWidth - viewportGap - panelWidth)
+  );
+  const clampedTop = Math.min(
+    Math.max(viewportGap, desiredTop),
+    Math.max(viewportGap, viewportHeight - viewportGap - panelHeight)
+  );
+
+  panelStyle.value = {
+    top: `${clampedTop}px`,
+    left: `${clampedLeft}px`,
+    minWidth: `${computedMinWidth}px`,
+    maxWidth: `${computedMaxWidth}px`,
+    maxHeight: `${computedMaxHeight}px`,
+    "--popover-trigger-w": `${triggerWidth}px`,
+    "--popover-panel-min-w": `${computedMinWidth}px`
   };
 }
 
@@ -149,9 +188,10 @@ onBeforeUnmount(() => {
   box-shadow: var(--shadow-3);
   padding: var(--space-2);
   z-index: var(--z-dropdown);
+  min-width: var(--popover-panel-min-w, 0px);
   max-width: var(--panel-max-w);
   max-height: var(--panel-max-h);
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 </style>

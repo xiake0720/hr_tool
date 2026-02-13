@@ -1,11 +1,16 @@
 <template>
-  <div class="ui-select" :class="{ 'ui-select--disabled': disabled, 'ui-select--error': !!error }" :style="rootStyle">
+  <div
+    class="ui-select ui-control"
+    :class="[rootClass, { 'ui-select--disabled': disabled, 'ui-select--error': !!error }]"
+    :style="rootStyle"
+  >
     <label v-if="label" class="ui-select__label">{{ label }}</label>
 
     <Popover
       :open="open && !disabled"
-      :minWidth="280"
-      :fullWidth="true"
+      :minWidth="0"
+      :matchTriggerWidth="true"
+      :fullWidth="props.fullWidth === true"
       @update:open="setOpen"
     >
       <template #trigger>
@@ -103,19 +108,18 @@ const selectedLabel = computed(() => {
   return match?.label ?? "";
 });
 
+const rootClass = computed(() => ({
+  "ui-control--sm": props.size === "sm",
+  "ui-control--md": props.size === "md",
+  "ui-control--lg": props.size === "lg",
+  "ui-control--full": props.fullWidth === true
+}));
+
 const rootStyle = computed(() => {
-  if (props.fullWidth) {
-    return { width: "100%" };
+  if (!props.width || props.fullWidth) {
+    return {};
   }
-  if (props.width) {
-    return { width: props.width };
-  }
-  const widthMap: Record<string, string> = {
-    sm: "var(--control-w-sm)",
-    md: "var(--control-w)",
-    lg: "var(--control-w-lg)"
-  };
-  return { width: widthMap[props.size] };
+  return { "--ui-control-w": props.width };
 });
 
 watch(
@@ -220,7 +224,9 @@ function onKeydown(event: KeyboardEvent): void {
 }
 
 .ui-select__chevron {
-  flex: 0 0 auto;
+  flex: 0 0 16px;
+  width: 16px;
+  text-align: center;
   margin-left: var(--space-2);
   color: var(--text-muted);
   font-size: var(--text-sm);
@@ -229,6 +235,8 @@ function onKeydown(event: KeyboardEvent): void {
 .ui-select__panel {
   display: grid;
   gap: var(--space-1);
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .ui-select__search {

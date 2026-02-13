@@ -1,5 +1,5 @@
 <template>
-  <div class="ui-input" :style="rootStyle">
+  <div class="ui-input ui-control" :class="rootClass" :style="rootStyle">
     <label v-if="label" class="ui-input__label" :for="inputId">{{ label }}</label>
     <div class="ui-input__field">
       <input
@@ -64,19 +64,17 @@ const emit = defineEmits<{ (event: "update:modelValue", value: string): void }>(
 const inputId = computed(() => props.id || `ui-input-${Math.random().toString(36).slice(2, 9)}`);
 const helperId = computed(() => `${inputId.value}-help`);
 const helperText = computed(() => props.error || props.helpText);
+const rootClass = computed(() => ({
+  "ui-control--sm": props.size === "sm",
+  "ui-control--md": props.size === "md",
+  "ui-control--lg": props.size === "lg",
+  "ui-control--full": props.fullWidth === true
+}));
 const rootStyle = computed(() => {
-  if (props.fullWidth) {
-    return { width: "100%" };
+  if (!props.width || props.fullWidth) {
+    return {};
   }
-  if (props.width) {
-    return { width: props.width };
-  }
-  const widthMap: Record<string, string> = {
-    sm: "var(--control-w-sm)",
-    md: "var(--control-w)",
-    lg: "var(--control-w-lg)"
-  };
-  return { width: widthMap[props.size] };
+  return { "--ui-control-w": props.width };
 });
 
 function onInput(event: Event): void {

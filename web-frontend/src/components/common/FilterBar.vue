@@ -2,28 +2,28 @@
   <section class="ui-filter">
     <div class="ui-filter__row ui-filter__row--top">
       <div class="ui-filter__fields">
-        <div class="ui-filter__field" style="width: var(--control-w-lg);">
+        <div class="ui-filter__field" >
           <label class="ui-filter__label">关键词</label>
           <div class="ui-filter__control">
-            <UiInput v-model="keyword" placeholder="姓名 / 邮箱 / 职位" clearable fullWidth />
+            <UiInput v-model="keyword" placeholder="姓名 / 邮箱 / 职位" clearable />
           </div>
         </div>
-        <div class="ui-filter__field" style="width: var(--control-w);">
+        <div class="ui-filter__field" >
           <label class="ui-filter__label">阶段</label>
           <div class="ui-filter__control">
-            <UiSelect v-model="stage" :options="stageOptions" placeholder="全部阶段" fullWidth />
+            <UiSelect v-model="stage" :options="stageOptions" placeholder="全部阶段" />
           </div>
         </div>
-        <div class="ui-filter__field" style="width: var(--control-w);">
+        <div class="ui-filter__field" >
           <label class="ui-filter__label">状态</label>
           <div class="ui-filter__control">
-            <UiSelect v-model="status" :options="statusOptions" placeholder="全部状态" fullWidth />
+            <UiSelect v-model="status" :options="statusOptions" placeholder="全部状态" />
           </div>
         </div>
-        <div class="ui-filter__field" style="width: var(--control-w-lg);">
+        <div class="ui-filter__field" >
           <label class="ui-filter__label">日期范围</label>
           <div class="ui-filter__control">
-            <DateRange v-model="dateRange" placeholder="开始 ~ 结束" fullWidth />
+            <DateRange v-model="dateRange" placeholder="开始 ~ 结束" />
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
         <div v-if="showAdvanced" class="ui-filter__field" style="width: var(--control-w-lg);">
           <label class="ui-filter__label">高级条件</label>
           <div class="ui-filter__control">
-            <UiInput v-model="advancedKeyword" placeholder="岗位 / 负责人" fullWidth />
+            <UiInput v-model="advancedKeyword" placeholder="岗位 / 负责人" />
           </div>
         </div>
       </div>
@@ -150,12 +150,19 @@ function toggleAdvanced(): void {
   flex-wrap: wrap;
 }
 
+.ui-filter__row--top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
 .ui-filter__fields {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .ui-filter__field {
@@ -163,6 +170,7 @@ function toggleAdvanced(): void {
   align-items: center;
   gap: var(--space-3);
   flex: 0 0 auto;
+  min-width: 0;
 }
 
 .ui-filter__label {
@@ -173,7 +181,7 @@ function toggleAdvanced(): void {
 }
 
 .ui-filter__control {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
 }
 
@@ -189,6 +197,8 @@ function toggleAdvanced(): void {
   align-items: center;
   gap: var(--space-2);
   flex: 0 0 auto;
+  justify-self: end;
+  white-space: nowrap;
 }
 
 .ui-filter__toggle {
@@ -208,5 +218,16 @@ function toggleAdvanced(): void {
 
 .ui-filter__toggle-icon {
   font-size: var(--text-sm);
+}
+
+@media (max-width: 1080px) {
+  .ui-filter__row--top {
+    display: flex;
+  }
+
+  .ui-filter__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 </style>
