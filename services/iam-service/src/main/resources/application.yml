@@ -18,10 +18,6 @@ spring:
         namespace: edf92667-4c88-4679-83d8-7307ca2a03e6
         group: DEFAULT_GROUP
         cluster-name: DEFAULT
-  datasource:
-    url: jdbc:mysql://8.148.69.222:3306/hr_tool?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:Lc123.321}
   data:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
